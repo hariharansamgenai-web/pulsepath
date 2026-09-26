@@ -1,0 +1,272 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* ── Light mode ── */
+  :root {
+    --bg-page:     #f8fafc;
+    --bg-sidebar:  #ffffff;
+    --bg-topbar:   #ffffff;
+    --bg-card:     #ffffff;
+    --bg-card-2:   #f8fafc;
+    --bg-input:    #ffffff;
+
+    --border:      #e4e4e7;
+    --border-card: #e4e4e7;
+
+    --text-primary:   #0f172a;
+    --text-secondary: #475569;
+    --text-muted:     #94a3b8;
+    --text-link:      #2563eb;
+
+    --accent:         #2563eb;
+    --accent-bg:      #eff6ff;
+    --accent-border:  #bfdbfe;
+
+    --good:       #10b981;
+    --good-bg:    #f0fdf4;
+    --good-text:  #065f46;
+    --warn:       #f59e0b;
+    --warn-bg:    #fffbeb;
+    --warn-text:  #92400e;
+    --danger:     #ef4444;
+    --danger-bg:  #fef2f2;
+    --danger-text:#991b1b;
+
+    --sidebar-active-bg:     #eff6ff;
+    --sidebar-active-text:   #1d4ed8;
+    --sidebar-active-border: #2563eb;
+
+    --nav-text:   #475569;
+    --nav-hover-bg: #f1f5f9;
+
+    --chart-grid: rgba(0,0,0,.06);
+    --chart-target: rgba(16,185,129,.15);
+    /* Sidebar gradient */
+    --sidebar-from:  #1e3a5f;
+    --sidebar-to:    #0f2344;
+    --sidebar-grad:  linear-gradient(160deg, #1e3a5f 0%, #162d4a 40%, #0f2344 100%);
+    --sidebar-glow:  rgba(99,179,237,.12);
+  }
+
+  /* ── Dark mode (Design A — Clinical Command) ── */
+  .dark {
+    --bg-page:     #0a0d14;
+    --bg-sidebar:  transparent; /* sidebar uses its own gradient */
+    --bg-topbar:   #0d1117;
+    --bg-card:     #0d1117;
+    --bg-card-2:   #060810;
+    --bg-input:    #0d1117;
+
+    --border:      #1e2433;
+    --border-card: #1e2433;
+
+    --text-primary:   #e2e8f0;
+    --text-secondary: #64748b;
+    --text-muted:     #475569;
+    --text-link:      #63b3ed;
+
+    --accent:         #63b3ed;
+    --accent-bg:      rgba(99,179,237,.08);
+    --accent-border:  rgba(99,179,237,.2);
+
+    --good:       #34d399;
+    --good-bg:    rgba(52,211,153,.08);
+    --good-text:  #34d399;
+    --warn:       #fbbf24;
+    --warn-bg:    rgba(251,191,36,.08);
+    --warn-text:  #fbbf24;
+    --danger:     #ef4444;
+    --danger-bg:  rgba(239,68,68,.08);
+    --danger-text:#fca5a5;
+
+    --sidebar-active-bg:     rgba(99,179,237,.08);
+    --sidebar-active-text:   #e2e8f0;
+    --sidebar-active-border: #63b3ed;
+
+    --nav-text:   #64748b;
+    --nav-hover-bg: rgba(255,255,255,.04);
+
+    --chart-grid: rgba(255,255,255,.04);
+    --chart-target: rgba(52,211,153,.08);
+    /* Sidebar gradient (same in dark — it's already dark enough to pop) */
+    --sidebar-from:  #0f1f38;
+    --sidebar-to:    #08111f;
+    --sidebar-grad:  linear-gradient(160deg, #0f1f38 0%, #0b1929 40%, #08111f 100%);
+    --sidebar-glow:  rgba(99,179,237,.08);
+  }
+
+  body {
+    background: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color .2s, color .2s;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2;
+    ring-offset-color: var(--bg-page);
+  }
+}
+
+@layer components {
+  .card-base {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    @apply rounded-xl shadow-sm;
+    transition: background-color .2s, border-color .2s;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-150;
+    color: rgba(255,255,255,.55);
+  }
+  .nav-link:hover {
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.9);
+    transform: translateX(2px);
+  }
+  .nav-link-active {
+    color: #fff;
+    background: rgba(255,255,255,.12);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
+  }
+
+  /* Metric card: big numeric + label */
+  .metric-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    @apply rounded-xl p-4;
+    transition: background-color .2s, border-color .2s;
+  }
+  .metric-val {
+    @apply text-3xl font-bold tracking-tight tabular-nums leading-none;
+  }
+  .metric-label {
+    @apply text-xs font-semibold uppercase tracking-widest;
+    color: var(--text-secondary);
+  }
+
+  /* Pill badge */
+  .pill {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .pill-good { background: var(--good-bg); color: var(--good-text); }
+  .pill-warn { background: var(--warn-bg); color: var(--warn-text); }
+  .pill-danger { background: var(--danger-bg); color: var(--danger-text); }
+
+  /* Alert rail */
+  .alert-rail {
+    background: var(--danger-bg);
+    border: 1px solid rgba(239,68,68,.2);
+    color: var(--danger-text);
+    @apply rounded-xl px-4 py-3 flex items-center gap-3 text-sm font-medium;
+  }
+  .alert-rail-warn {
+    background: var(--warn-bg);
+    border: 1px solid rgba(245,158,11,.2);
+    color: var(--warn-text);
+  }
+
+  /* Topbar / sidebar chrome */
+  .layout-topbar {
+    background: var(--bg-topbar);
+    border-bottom: 1px solid var(--border);
+    @apply h-16 flex items-center justify-between px-4 lg:px-6;
+    transition: background-color .2s, border-color .2s;
+  }
+  .layout-sidebar {
+    background: var(--sidebar-grad);
+    border-right: none;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .layout-sidebar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    right: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(99,179,237,.2) 40%, rgba(99,179,237,.1) 60%, transparent);
+    pointer-events: none;
+  }
+
+  /* ── Dynamic / animated elements ── */
+
+  /* Animated gradient behind the dashboard greeting */
+  .dash-hero {
+    position: relative;
+    overflow: hidden;
+  }
+  .dash-hero::before {
+    content: '';
+    position: absolute;
+    inset: -50% -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 20% 50%, rgba(99,179,237,.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(52,211,153,.04) 0%, transparent 50%);
+    animation: drift 12s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 0) rotate(0deg); }
+    to   { transform: translate(3%, 2%) rotate(2deg); }
+  }
+
+  /* Card hover lift */
+  .card-base {
+    transition: box-shadow .15s ease, border-color .15s ease, background-color .2s;
+  }
+  .card-base:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,.18), 0 1px 4px rgba(0,0,0,.12);
+  }
+
+  /* KPI metric pulse on active-good state */
+  .metric-val-good {
+    animation: value-pulse 3s ease-in-out infinite;
+  }
+  @keyframes value-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .82; }
+  }
+
+  /* Glowing dot for "today is logged" */
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    display: inline-block;
+    animation: glow-dot 2.4s ease-in-out infinite;
+  }
+  @keyframes glow-dot {
+    0%, 100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; }
+    50%       { box-shadow: 0 0 0 4px transparent; opacity: .7; }
+  }
+
+  /* Shimmer on card skeleton */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background: var(--border-card);
+    border-radius: 6px;
+  }
+  .shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.05) 50%, transparent 100%);
+    animation: shimmer 1.6s infinite;
+  }
+
+  /* Topbar: add a subtle bottom-glow in dark mode */
+  .dark .layout-topbar {
+    box-shadow: 0 1px 0 rgba(99,179,237,.08);
+  }
+
+}
